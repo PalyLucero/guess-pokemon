@@ -18,7 +18,7 @@ export default function Home({ pokemonData }) {
 
   const { data: pokemon, isLoading, error } = useQuery('pokemon', getPokemon, {
     initialData: pokemonData,
-    // refetchOnMount: false,
+    refetchOnMount: false,
     refetchOnWindowFocus: false
   })
 
