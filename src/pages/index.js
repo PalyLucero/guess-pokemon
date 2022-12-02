@@ -17,7 +17,7 @@ export default function Home({ pokemonData }) {
 
   const { data: pokemon, isLoading, error } = useQuery('pokemon', getPokemon, {
     initialData: pokemonData,
-    refetchOnMount: false,
+    // refetchOnMount: false,
     refetchOnWindowFocus: false
   })
 
@@ -36,7 +36,7 @@ export default function Home({ pokemonData }) {
   return (
     <div className='h-screen w-screen flex flex-col justify-start items-center'>
       <Navbar />
-      <Pokemon pokemon={current} success={setPointer} pointer={pointer} cluePointer={cluePointer} setClue={setCluePointer} />
+      <Pokemon pokemon={current} success={setPointer} pointer={pointer} cluePointer={cluePointer} setClue={setCluePointer} isLoading={isLoading} />
     </div>
   )
 }

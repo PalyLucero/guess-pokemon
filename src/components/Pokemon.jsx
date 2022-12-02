@@ -3,9 +3,9 @@ import Image from 'next/image'
 
 export default function Pokemon({ pokemon, success, pointer, cluePointer, setClue }) {
 
-  const { clues, sprite } = pokemon
+  const { clues, id } = pokemon
 
-  if (!clues || !sprite) return <div>Loading</div>
+  if (!clues || !id) return <div>Loading</div>
 
   const handleAsk = (e) => {
     e.preventDefault()
@@ -28,7 +28,7 @@ export default function Pokemon({ pokemon, success, pointer, cluePointer, setClu
       <div className='min-w-full h-min p-2 rounded'>
         <div className='bg-black bg-opacity-20 h-52 min-w-full min-h-full rounded grid place-items-center'>
           {
-            sprite && <Image src={sprite} width={64} height={64} alt="Skip this" priority className='h-52 w-auto filter brightness-0' />
+            <Image src={`/pokemon/${id}.png`} width={64} height={64} alt="Skip this" priority className='h-52 w-auto filter brightness-0' />
           }
         </div>
       </div>

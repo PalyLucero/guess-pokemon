@@ -18,14 +18,12 @@ const getPokemon = async () => {
 
   const pokemonData = pokemonList.map(responses => {
     const poke = responses.data
-    let frontDefault = poke.sprites?.other["official-artwork"].front_default ? poke.sprites.other["official-artwork"].front_default : "not found"
     return {
       id: poke.id,
       name: poke.name,
       types: poke.types,
       weight: poke.weight,
       height: poke.height,
-      sprite: frontDefault,
       clues: makeClues({types: poke.types, height: poke.height, weight: poke.weight, name: poke.name})
     }
   })
