@@ -3,7 +3,6 @@ import Navbar from '../components/Navbar'
 import getPokemon from '../utils/getPokemon'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import makeClues from '../utils/makeClues'
 
 // export async function getServerSideProps() {
 //   let pokemonData = await getPokemon()
