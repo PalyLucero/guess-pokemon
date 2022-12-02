@@ -9,7 +9,7 @@ export default function Pokemon({ pokemon, success, pointer, cluePointer, setClu
 
   const handleAsk = (e) => {
     e.preventDefault()
-    if (clues.length - 1 === cluePointer) setClue(0)
+    if (clues.length - 1 >= cluePointer) setClue(0)
     else setClue(cluePointer + 1)
 
   }
