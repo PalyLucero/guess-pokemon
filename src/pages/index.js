@@ -1,6 +1,7 @@
 import Pokemon from '../components/Pokemon'
 import Navbar from '../components/Navbar'
 import getPokemon from '../utils/getPokemon'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
@@ -35,8 +36,12 @@ export default function Home({ pokemonData }) {
 
   return (
     <div className='h-screen w-screen flex flex-col justify-start items-center'>
+      <Head>
+        <title>Pokemon Guesser</title>
+        <link rel="icon" href="/favicon.svg" />
+      </Head>
       <Navbar />
-      <Pokemon pokemon={current} success={setPointer} pointer={pointer} cluePointer={cluePointer} setClue={setCluePointer} isLoading={isLoading} />
+      <Pokemon pokemon={current} setPointer={setPointer} pointer={pointer} cluePointer={cluePointer} setClue={setCluePointer} isLoading={isLoading} />
     </div>
   )
 }
