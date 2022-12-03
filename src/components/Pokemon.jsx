@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
 import Image from 'next/image'
 
-export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, setClue }) {
+
+export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, setClue, isLoading, fullClues }) {
 
   const { clues, id, name, description } = pokemon
 
   if (!clues || !id || !description) return <div>Loading</div>
 
-  const fullClues = clues.concat(description)
+
 
   const handleAsk = (e) => {
     e.preventDefault()
-    console.log(fullClues)
     if (fullClues.length - 1 === cluePointer) setClue(0)
     else setClue(cluePointer + 1)
 
