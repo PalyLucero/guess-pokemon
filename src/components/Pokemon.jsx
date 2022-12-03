@@ -3,13 +3,16 @@ import Image from 'next/image'
 
 export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, setClue }) {
 
-  const { clues, id, name } = pokemon
+  const { clues, id, name, description } = pokemon
 
-  if (!clues || !id) return <div>Loading</div>
+  if (!clues || !id || !description) return <div>Loading</div>
+
+  const fullClues = clues.concat(description)
 
   const handleAsk = (e) => {
     e.preventDefault()
-    if (clues.length - 1 === cluePointer) setClue(0)
+    console.log(fullClues)
+    if (fullClues.length - 1 === cluePointer) setClue(0)
     else setClue(cluePointer + 1)
 
   }
@@ -44,7 +47,7 @@ export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, set
         <button className='bg-black bg-opacity-20 w-1/6 px-4 py-2 rounded flex justify-center' onClick={(e) => handleNext(e)}>Skip</button>
       </div>
       <div className='flex justify-between min-w-full rounded p-2'>
-        <div className='bg-black bg-opacity-20 w-5/6 px-4 py-2 rounded'>{clues[cluePointer]}</div>
+        <div className='bg-black bg-opacity-20 w-5/6 px-4 py-2 rounded'>{fullClues[cluePointer]}</div>
         <div className='p-2' />
         <button className='bg-black bg-opacity-20 w-1/6 px-4 py-2 rounded flex justify-center' onClick={(e) => handleAsk(e)}>Ask</button>
       </div>

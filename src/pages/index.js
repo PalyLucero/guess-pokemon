@@ -1,15 +1,22 @@
 import Pokemon from '../components/Pokemon'
 import Navbar from '../components/Navbar'
-import getPokemon from '../utils/getPokemon'
+// import getPokemon from './utils/getPokemon'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
+
+const getPokemon = async () => {
+  const response = await fetch('http://localhost:3000/api/getPokemon')
+  const data = await response.json()
+  const { pokemonData } = data
+  return pokemonData
+}
+
 // export async function getServerSideProps() {
-//   let pokemonData = await getPokemon()
 //   return {
 //     props: {
-//       pokemonData
+//       pokemonData: JSON.stringify(await getPokemon())
 //     }
 //   }
 // }
