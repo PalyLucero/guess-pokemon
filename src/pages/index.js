@@ -1,14 +1,14 @@
 import Pokemon from '../components/Pokemon'
 import Navbar from '../components/Navbar'
-// import getPokemon from './utils/getPokemon'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import shuffle from '../utils/shuffle'
 
+const url = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'
 
 const getPokemon = async () => {
-  const response = await fetch('/api/getPokemon')
+  const response = await fetch(`${url}/api/getPokemon`)
   const data = await response.json()
   const { pokemonData } = data
   return pokemonData
