@@ -8,7 +8,7 @@ import shuffle from '../utils/shuffle'
 
 
 const getPokemon = async () => {
-  const response = await fetch('http://localhost:3000/api/getPokemon')
+  const response = await fetch('/api/getPokemon')
   const data = await response.json()
   const { pokemonData } = data
   return pokemonData
