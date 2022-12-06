@@ -1,13 +1,34 @@
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
 
 
 export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, setClue, isLoading, fullClues }) {
 
+  const [answer, setAnswer] = useState("")
+  const [correct, setCorrect] = useState(false)
+  const [skipped, setSkipped] = useState(false)
+
   const { clues, id, name, description } = pokemon
 
+  useEffect(() => {
+    if (name === answer.toLowerCase()) {
+      setCorrect(true)
+    }
+  }, [name, answer])
+
+  useEffect(() => {
+    const reset = 0
+    if (correct || skipped) {
+      setCorrect(false)
+      setSkipped(false)
+      setPointer(pointer + 1)
+    }
+    setAnswer("")
+    console.log(pointer)
+  }, [correct, skipped, pointer, setPointer])
+
+
   if (!clues || !id || !description) return <div>Loading</div>
-
-
 
   const handleAsk = (e) => {
     e.preventDefault()
@@ -17,8 +38,7 @@ export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, set
   }
   const handleNext = (e) => {
     e.preventDefault()
-    if (pointer === 9) return setPointer(0)
-    setPointer(pointer + 1)
+
   }
 
   const handleChange = (e) => {
@@ -41,9 +61,9 @@ export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, set
         </div>
       </div>
       <div className='flex justify-between min-w-full rounded p-2'>
-        <input placeholder='Enter your answer' onChange={(e) => handleChange(e)} className='bg-black bg-opacity-20 w-5/6 px-4 py-2 rounded placeholder:text-gray-600 placeholder:italic focus:outline-none focus:border-none focus:ring-none focus:ring-none' />
+        <input placeholder='Enter your answer' value={answer} onChange={(e) => setAnswer(e.target.value)} className='bg-black bg-opacity-20 w-5/6 px-4 py-2 rounded placeholder:text-gray-600 placeholder:italic focus:outline-none focus:border-none focus:ring-none focus:ring-none' />
         <div className='p-2' />
-        <button className='bg-black bg-opacity-20 w-1/6 px-4 py-2 rounded flex justify-center' onClick={(e) => handleNext(e)}>Skip</button>
+        <button className='bg-black bg-opacity-20 w-1/6 px-4 py-2 rounded flex justify-center' onClick={e => setSkipped(true)}>Skip</button>
       </div>
       <div className='flex justify-between min-w-full rounded p-2'>
         <div className='bg-black bg-opacity-20 w-5/6 px-4 py-2 rounded'>{fullClues[cluePointer]}</div>

@@ -30,7 +30,7 @@ export default function Home({ pokemonData }) {
     refetchOnWindowFocus: false
   })
 
-  console.log(pokemon)
+  // console.log(pokemon)
 
   const [current, setCurrent] = useState({})
   const [pointer, setPointer] = useState(0)
@@ -39,6 +39,7 @@ export default function Home({ pokemonData }) {
 
   useEffect(() => {
     if (isLoading) return
+    if (pointer > 9) return setPointer(0)
     setCurrent(pokemon[pointer])
   }, [pokemon, isLoading, pointer])
 
