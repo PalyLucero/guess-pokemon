@@ -11,13 +11,13 @@ export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, set
 
   const handleAsk = (e) => {
     e.preventDefault()
-    if (fullClues.length - 1 === cluePointer) setClue(0)
+    if (fullClues.length - 1 === cluePointer) return setClue(0)
     else setClue(cluePointer + 1)
 
   }
   const handleNext = (e) => {
     e.preventDefault()
-    if (pointer === 150) setPointer(0)
+    if (pointer === 9) return setPointer(0)
     setPointer(pointer + 1)
   }
 

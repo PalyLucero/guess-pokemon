@@ -13,11 +13,17 @@ datasource db {
 }
 
 model Pokemon {
-  id          Int    @id @unique
+  id          Int    @id
   name        String @unique
   types       String
   weight      Int
   height      Int
   clues       String @db.LongText
   description String @db.LongText
+}
+
+model Score {
+  id    String @id @default(uuid())
+  name  String
+  score Int
 }

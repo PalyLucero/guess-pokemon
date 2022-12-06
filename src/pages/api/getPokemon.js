@@ -9,7 +9,7 @@ const getPokemon = async (req, res) => {
   switch (method) {
     case "GET":
       const pokemonRaw = await prisma.pokemon.findMany()
-      const pokemonData = pokemonRaw.map(poke => {
+      const allPokemon = pokemonRaw.map(poke => {
         const { cluesParsed, descParsed } = parsePokeData(poke.clues, poke.description, poke.name)
         return {
           ...poke,
@@ -18,8 +18,9 @@ const getPokemon = async (req, res) => {
           description: descParsed
         }
       })
-      // console.log(pokemonData)
-      return res.json({ pokemonData: shuffle(pokemonData) })
+      const shuffled = shuffle(allPokemon)
+      const pokemonData = shuffled.slice(0, 10)
+      return res.json({ pokemonData: pokemonData })
 
     default:
       return res.status(400).json('Method not allowed')

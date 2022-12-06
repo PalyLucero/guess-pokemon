@@ -13,9 +13,11 @@ const getPokemon = async () => {
 }
 
 // export async function getServerSideProps() {
+//   const res = await fetch(`http://localhost:3000/api/getPokemon`)
+//   const data = await res.json()
 //   return {
 //     props: {
-//       pokemonData: JSON.stringify(await getPokemon())
+//       pokemonData: data
 //     }
 //   }
 // }
@@ -27,6 +29,8 @@ export default function Home({ pokemonData }) {
     refetchOnMount: false,
     refetchOnWindowFocus: false
   })
+
+  console.log(pokemon)
 
   const [current, setCurrent] = useState({})
   const [pointer, setPointer] = useState(0)
