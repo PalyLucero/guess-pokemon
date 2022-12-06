@@ -15,6 +15,7 @@ const parsePokeData = (clues, description, name) => {
   })
   
   const descFiltered = descFormat.map((desc) => {
+    if(name === 'mr mime') name = 'mr. mime'
     let lower = desc.toLowerCase().replace(name, 'this pokémon')
     return sentenceCase(lower)
   })

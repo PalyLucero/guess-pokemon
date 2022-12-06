@@ -30,12 +30,12 @@ export default function Home({ pokemonData }) {
     refetchOnWindowFocus: false
   })
 
-  // console.log(pokemon)
-
+  
   const [current, setCurrent] = useState({})
   const [pointer, setPointer] = useState(0)
   const [cluePointer, setCluePointer] = useState(0)
-
+  
+  console.log(current)
 
   useEffect(() => {
     if (isLoading) return

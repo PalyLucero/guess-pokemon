@@ -9,22 +9,27 @@ export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, set
   const [skipped, setSkipped] = useState(false)
 
   const { clues, id, name, description } = pokemon
+  const blacked = correct ? "" : "filter brightness-0"
 
   useEffect(() => {
     if (name === answer.toLowerCase()) {
       setCorrect(true)
+
     }
   }, [name, answer])
 
   useEffect(() => {
-    const reset = 0
-    if (correct || skipped) {
-      setCorrect(false)
+    if (correct) {
+      const timer = setTimeout(() => {
+        setCorrect(false)
+        setPointer(pointer + 1)
+        setAnswer("")
+      }, 1000)
+    } else if (skipped) {
       setSkipped(false)
       setPointer(pointer + 1)
+      setAnswer("")
     }
-    setAnswer("")
-    console.log(pointer)
   }, [correct, skipped, pointer, setPointer])
 
 
@@ -34,17 +39,6 @@ export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, set
     e.preventDefault()
     if (fullClues.length - 1 === cluePointer) return setClue(0)
     else setClue(cluePointer + 1)
-
-  }
-  const handleNext = (e) => {
-    e.preventDefault()
-
-  }
-
-  const handleChange = (e) => {
-    if (name.toLowerCase() === e.target.value.toLowerCase()) {
-      handleNext(e)
-    }
   }
 
   return (
@@ -56,7 +50,7 @@ export default function Pokemon({ pokemon, setPointer, pointer, cluePointer, set
       <div className='min-w-full h-min p-2 rounded'>
         <div className='bg-black bg-opacity-20 h-52 min-w-full min-h-full rounded grid place-items-center'>
           {
-            id && <Image src={`/pokemon/${id}.png`} width={64} height={64} alt="Skip this" priority className='h-52 w-auto filter brightness-0' />
+            id && <Image src={`/pokemon/${id}.png`} width={64} height={64} alt="Skip this" priority className={'h-52 w-auto ' + blacked} />
           }
         </div>
       </div>

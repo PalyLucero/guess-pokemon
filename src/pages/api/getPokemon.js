@@ -4,8 +4,8 @@ import shuffle from "../../utils/shuffle"
 
 const getPokemon = async (req, res) => {
 
-  const { method } = req
-
+  const { method, query } = req
+  const { all } = query
   switch (method) {
     case "GET":
       const pokemonRaw = await prisma.pokemon.findMany()
@@ -18,6 +18,7 @@ const getPokemon = async (req, res) => {
           description: descParsed
         }
       })
+      if (all === 'true') return res.json({ allPokemon: allPokemon })
       const shuffled = shuffle(allPokemon)
       const pokemonData = shuffled.slice(0, 10)
       return res.json({ pokemonData: pokemonData })
