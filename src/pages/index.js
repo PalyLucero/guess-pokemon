@@ -12,16 +12,6 @@ const getPokemon = async () => {
   return pokemonData
 }
 
-// export async function getServerSideProps() {
-//   const res = await fetch(`http://localhost:3000/api/getPokemon`)
-//   const data = await res.json()
-//   return {
-//     props: {
-//       pokemonData: data
-//     }
-//   }
-// }
-
 export default function Home({ pokemonData }) {
 
   const { data: pokemon, isLoading, error } = useQuery('pokemon', getPokemon, {
@@ -30,11 +20,11 @@ export default function Home({ pokemonData }) {
     refetchOnWindowFocus: false
   })
 
-  
+
   const [current, setCurrent] = useState({})
   const [pointer, setPointer] = useState(0)
   const [cluePointer, setCluePointer] = useState(0)
-  
+
   console.log(current)
 
   useEffect(() => {
@@ -55,7 +45,7 @@ export default function Home({ pokemonData }) {
         <link rel="icon" href="/favicon.svg" />
       </Head>
       <Navbar />
-      <Pokemon pokemon={current} setPointer={setPointer} pointer={pointer} cluePointer={cluePointer} setClue={setCluePointer} isLoading={isLoading} fullClues={fullClues} />
+      <Pokemon pokemon={current} setPointer={setPointer} pointer={pointer} cluePointer={cluePointer} setClue={setCluePointer} fullClues={fullClues} />
     </div>
   )
 }
