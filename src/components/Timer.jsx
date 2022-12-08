@@ -1,20 +1,23 @@
 import { useState, useEffect, useRef } from "react"
 
-export default function Timer({ correct }) {
+export default function Timer({ correct, setRemainingTime, gameDone, setGameDone }) {
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(30)
 
   const timerInterval = useRef()
 
   useEffect(() => {
-    if (correct) setSeconds(seconds + 15)
+    if (correct) {
+      setRemainingTime((minutes * 60) + seconds)
+      setSeconds(seconds + 15)
+    }
     if (seconds > 60) {
       let rest = seconds - 60
       setMinutes(minutes + 1)
       setSeconds(rest)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [correct, skipped])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [correct])
 
   useEffect(() => {
     timerInterval.current = setInterval(() => {
@@ -23,7 +26,8 @@ export default function Timer({ correct }) {
       }
       if (seconds === 0) {
         if (minutes === 0) {
-          return clearInterval(timer)
+          setGameDone(true)
+          return clearInterval(timerInterval.current)
         }
       }
       setMinutes(minutes - 1)

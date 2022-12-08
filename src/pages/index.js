@@ -24,10 +24,11 @@ export default function Home({ pokemonData }) {
   const [current, setCurrent] = useState({})
   const [pointer, setPointer] = useState(0)
   const [cluePointer, setCluePointer] = useState(0)
+  const [gameDone, setGameDone] = useState(false)
 
   useEffect(() => {
     if (isLoading) return
-    if (pointer > 9) return setPointer(0)
+    if (pointer > 9) return setGameDone(true)
     setCurrent(pokemon[pointer])
   }, [pokemon, isLoading, pointer])
 
@@ -43,7 +44,7 @@ export default function Home({ pokemonData }) {
         <link rel="icon" href="/favicon.svg" />
       </Head>
       <Navbar />
-      <Pokemon pokemon={current} setPointer={setPointer} pointer={pointer} cluePointer={cluePointer} setClue={setCluePointer} fullClues={fullClues} />
+      <Pokemon pokemon={current} setPointer={setPointer} pointer={pointer} cluePointer={cluePointer} setClue={setCluePointer} fullClues={fullClues} gameDone={gameDone} setGameDone={setGameDone} />
     </div>
   )
 }
