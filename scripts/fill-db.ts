@@ -1,10 +1,5 @@
 import { PokemonClient } from "pokenode-ts"
 import { prisma } from "../database/prisma"
-// import makeClues from "../src/utils/makeClues"
-// const makeClues = require("../src/utils/makeClues")
-
-
-
 
 const shuffle = (array: string[]) => {
   const shuffled = array.sort((a: string, b: string) => Math.random() - 0.5)

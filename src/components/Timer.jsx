@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react"
 
-export default function Timer({ correct, skipped }) {
+export default function Timer({ correct }) {
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(30)
+
+  const timerInterval = useRef()
 
   useEffect(() => {
     if (correct) setSeconds(seconds + 15)
@@ -11,26 +13,24 @@ export default function Timer({ correct, skipped }) {
       setMinutes(minutes + 1)
       setSeconds(rest)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [correct, skipped])
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    timerInterval.current = setInterval(() => {
       if (seconds > 0) {
-        // console.log("seconds - 1")
         return setSeconds(seconds - 1)
       }
       if (seconds === 0) {
         if (minutes === 0) {
-          // console.log("done")
           return clearInterval(timer)
         }
       }
-      // console.log("minute change")
       setMinutes(minutes - 1)
       setSeconds(59)
 
     }, 1000)
-    return () => clearInterval(timer)
+    return () => clearInterval(timerInterval.current)
   }, [minutes, seconds])
 
   return (

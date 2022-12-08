@@ -25,8 +25,6 @@ export default function Home({ pokemonData }) {
   const [pointer, setPointer] = useState(0)
   const [cluePointer, setCluePointer] = useState(0)
 
-  console.log(current)
-
   useEffect(() => {
     if (isLoading) return
     if (pointer > 9) return setPointer(0)
