@@ -1,15 +1,24 @@
+import { useAppContext } from '../context/context'
+import { ACTIONS } from '../context/reducer'
 import { useState, useEffect, useRef } from "react"
 
-export default function Timer({ correct, setRemainingTime, gameDone, setGameDone }) {
+
+export default function Timer() {
+
+  const { state, dispatch } = useAppContext()
+  const { gameDone, correctAnswer, totalScore } = state
+
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(30)
 
   const timerInterval = useRef()
 
   useEffect(() => {
-    if (correct) {
-      setRemainingTime((minutes * 60) + seconds)
+    if (correctAnswer) {
+      let remainingTime = (minutes * 60) + seconds
+      dispatch({ type: ACTIONS.REMAINING_TIME, payload: remainingTime })
       setSeconds(seconds + 15)
+      dispatch({ type: ACTIONS.TOTAL_SCORE})
     }
     if (seconds > 60) {
       let rest = seconds - 60
@@ -17,7 +26,7 @@ export default function Timer({ correct, setRemainingTime, gameDone, setGameDone
       setSeconds(rest)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [correct])
+  }, [correctAnswer])
 
   useEffect(() => {
     timerInterval.current = setInterval(() => {
@@ -26,8 +35,8 @@ export default function Timer({ correct, setRemainingTime, gameDone, setGameDone
       }
       if (seconds === 0) {
         if (minutes === 0) {
-          setGameDone(true)
-          return clearInterval(timerInterval.current)
+          clearInterval(timerInterval.current)
+          return dispatch({ type: ACTIONS.GAME_DONE })
         }
       }
       setMinutes(minutes - 1)
@@ -35,15 +44,20 @@ export default function Timer({ correct, setRemainingTime, gameDone, setGameDone
 
     }, 1000)
     return () => clearInterval(timerInterval.current)
-  }, [minutes, seconds])
+  }, [minutes, seconds, dispatch])
 
   return (
-    <div className='bg-black bg-opacity-20 px-4 py-2 rounded'>
-      {
-        correct ?
-          "+" :
-          `${minutes > 9 ? minutes : "0" + minutes}:${seconds > 9 ? seconds : "0" + seconds}`
-      }
+    <div className='flex justify-between rounded p-2 w-full'>
+      <div className='bg-black bg-opacity-20 px-4 py-2 rounded'>
+        {
+          correctAnswer ?
+            "+" :
+            `${minutes > 9 ? minutes : "0" + minutes}:${seconds > 9 ? seconds : "0" + seconds}`
+        }
+      </div>
+      <div className='bg-black bg-opacity-20 px-4 py-2 rounded'>
+        {totalScore}
+      </div>
     </div>
   )
 }
