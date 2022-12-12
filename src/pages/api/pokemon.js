@@ -15,7 +15,8 @@ const getPokemon = async (req, res) => {
           ...poke,
           types: JSON.parse(poke.types),
           clues: cluesParsed,
-          description: descParsed
+          description: descParsed,
+          fullClues: shuffle(cluesParsed.concat(descParsed))
         }
       })
       if (all === 'true') return res.json({ allPokemon: allPokemon })

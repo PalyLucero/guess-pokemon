@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply text-black bg-cover bg-bottom;
+  @apply text-black bg-center bg-cover bg-fixed;
   background-image: url('/background.svg');
 }
 

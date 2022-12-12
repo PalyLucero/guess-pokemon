@@ -1,14 +1,15 @@
 import Pokemon from '../components/Pokemon'
 import Navbar from '../components/Navbar'
+import SubmitScore from '../components/SubmitScore'
+import TestData from '../components/TestData'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import shuffle from '../utils/shuffle'
 import { useAppContext } from '../context/context'
 import { ACTIONS } from '../context/reducer'
 
 const getPokemon = async () => {
-  const response = await fetch(`/api/getPokemon`)
+  const response = await fetch(`/api/pokemon`)
   const data = await response.json()
   const { pokemonData } = data
   return pokemonData
@@ -17,20 +18,13 @@ const getPokemon = async () => {
 export default function Home({ pokemonData }) {
 
   const { state, dispatch } = useAppContext()
-  const { data: pokemon, isLoading, refetch } = useQuery('pokemon', getPokemon, {
+  const { data: pokemon, isLoading, isRefetching, refetch } = useQuery('pokemon', getPokemon, {
     initialData: pokemonData,
     refetchOnMount: true,
     refetchOnWindowFocus: false
   })
 
-
-  // const [current, setCurrent] = useState({})
-  // const [pointer, setPointer] = useState(0)
-  // const [cluePointer, setCluePointer] = useState(0)
-  // const [gameDone, setGameDone] = useState(false)
-
-  const { currentPokemon, currentPokemonIndex, currentClueIndex, gameDone, remainingTime, totalScore } = state
-  console.log(state)
+  const { currentPokemon, currentPokemonIndex, gameDone, testMode } = state
 
   useEffect(() => {
     if (isLoading) return
@@ -39,10 +33,7 @@ export default function Home({ pokemonData }) {
   }, [dispatch, pokemon, currentPokemonIndex, isLoading])
 
 
-  if (isLoading || !currentPokemon) return <div className='h-screen w-screen flex flex-col justify-around items-center'>Loading</div>
-
-  let fullClues
-  currentPokemon && currentPokemon.clues && currentPokemon.description && (fullClues = shuffle(currentPokemon.clues.concat(currentPokemon.description)))
+  if (isLoading || !currentPokemon || isRefetching) return <div className='h-screen w-screen flex flex-col justify-around items-center'>Loading</div>
 
   return (
     <div className='h-screen w-screen flex flex-col justify-start items-center'>
@@ -50,14 +41,20 @@ export default function Home({ pokemonData }) {
         <title>Pokemon Guesser</title>
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <Navbar refetch={refetch}/>
+      <Navbar refetch={refetch} />
       {
-        gameDone ?
-          <div>
-            {`GAME OVER! Remainig Time: ${remainingTime} Score: ${totalScore}`}
-          </div> :
-          <Pokemon pokemon={{ ...currentPokemon, clues: fullClues }} pointer={currentPokemonIndex} cluePointer={currentClueIndex} gameDone={gameDone} />
+        testMode ? (
+          <div className='flex flex-col justify-around'>
+            <Pokemon />
+            <TestData />
+          </div>
+        ) : <>{
+          gameDone ?
+            <SubmitScore /> :
+            <Pokemon />
+        }</>
       }
+
     </div>
   )
 }

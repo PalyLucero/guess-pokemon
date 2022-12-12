@@ -6,7 +6,8 @@ export const initialState = {
   correctAnswer: false,
   skippedPokemon: [],
   remainingTime: 0,
-  totalScore: 0
+  totalScore: 0,
+  testMode: false
 }
 
 export const ACTIONS = {
@@ -18,11 +19,12 @@ export const ACTIONS = {
   SKIP_POKEMON: 'SKIP_POKEMON',
   CORRECT_ANSWER: 'CORRECT_ANSWER',
   REMAINING_TIME: 'REMAINING_TIME',
-  TOTAL_SCORE: 'TOTAL_SCORE'
+  TOTAL_SCORE: 'TOTAL_SCORE',
+  TEST_MODE: 'TEST_MODE'
 }
 
 export const AppReducer = (state, action) => {
-  const { gameDone, currentPokemon, currentPokemonIndex, currentClueIndex, correctAnswer, skippedPokemon, remainingTime, totalScore } = state
+  const { currentPokemon, currentPokemonIndex, currentClueIndex, correctAnswer, skippedPokemon, remainingTime, totalScore, testMode } = state
   switch (action.type) {
     case ACTIONS.GAME_DONE:
       return {
@@ -68,16 +70,15 @@ export const AppReducer = (state, action) => {
       }
     case ACTIONS.TOTAL_SCORE:
       const calculateTotal = () => {
-        console.log(remainingTime, 'AWEAWRETGATEWAR')
         const updatedTotalScore = (totalScore + ((remainingTime * 100) / 30)) * ((10 - skippedPokemon.length) / 10)
-        console.log(updatedTotalScore, '????????')
         return Math.floor(updatedTotalScore)
       }
-      console.log(totalScore)
       return {
         ...state,
         totalScore: calculateTotal()
       }
+    case ACTIONS.TEST_MODE:
+      return testMode ? { ...state, testMode: false } : { ...state, testMode: true }
     default:
       return state
   }
