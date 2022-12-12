@@ -6,6 +6,9 @@ function TestData() {
   const { state, dispatch } = useAppContext()
   const { currentPokemon } = state
   const { id, name, types, height, weight } = currentPokemon
+
+  if(!id) return
+
   return (
     <div className='bg-black bg-opacity-20 rounded flex justify-around text-xs m-2'>
       <div className='rounded grid place-items-center'>

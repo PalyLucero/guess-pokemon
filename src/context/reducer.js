@@ -32,8 +32,17 @@ export const AppReducer = (state, action) => {
         gameDone: true
       }
     case ACTIONS.RESET:
-      action.payload()
-      return initialState
+      action.payload.fn()
+      if (action.payload.disableTestMode) {
+        return {
+          ...initialState,
+          testMode: false
+        }
+      }
+      return {
+        ...initialState,
+        testMode: testMode
+      }
     case ACTIONS.SET_POKEMON:
       return {
         ...state,
