@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { ACTIONS } from "../context/reducer";
 import { useAppContext } from "../context/context";
 
@@ -30,20 +31,25 @@ export default function Navbar({ refetch }) {
         Guess the Pokémon!
       </div>
       <div className="flex items-center px-4">
-        <button
+        <Link
           className="p-4 text-xl font-bold text-center"
+          href="/"
           onClick={() => handleReset()}
         >
           Replay
-        </button>
+        </Link>
         <button
           className={"p-4 text-xl font-bold text-center " + highLight}
           onClick={() => handleTestMode()}
         >
           Test Mode
         </button>
-        <div className="p-4 text-xl font-bold text-center">About</div>
-        <div className="p-4 text-xl font-bold text-center">Scores</div>
+        <div className="p-4 text-xl font-bold text-center">
+          <Link href="/about">About</Link>
+        </div>
+        <div className="p-4 text-xl font-bold text-center">
+          <Link href="/scoreTable">Scores</Link>
+        </div>
       </div>
     </div>
   );
