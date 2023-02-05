@@ -13,7 +13,7 @@ function TestData() {
     <div className='bg-black bg-opacity-20 rounded flex justify-around text-xs m-2'>
       <div className='rounded grid place-items-center'>
         {
-          id && <Image src={`/pokemon/${id}.png`} width={64} height={64} alt="Skip this" priority className={'h-24 w-auto'} />
+          id && <Image src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`} width={64} height={64} alt="Skip this" priority className={'h-24 w-auto'} />
         }
       </div>
       <div className='flex flex-col items-center justify-around m-2'>

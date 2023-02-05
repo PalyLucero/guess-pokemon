@@ -3,7 +3,6 @@ import { useScoreData } from "../hooks/useScoreData";
 
 export default function Table() {
   const { data: scores, isLoading } = useScoreData()
-  console.log(scores)
 
   if(isLoading) return <div>Loading...</div>
 

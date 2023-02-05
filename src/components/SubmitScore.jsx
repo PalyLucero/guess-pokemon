@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { useAppContext } from "../context/context";
 import { useAddScoreData } from "../hooks/useScoreData";
 
@@ -6,6 +7,7 @@ export default function SubmitScore() {
   const { state, dispatch } = useAppContext();
   const { remainingTime, totalScore } = state;
   const { mutate } = useAddScoreData();
+  const router = useRouter()
 
   const [name, setName] = useState("");
 
@@ -20,7 +22,9 @@ export default function SubmitScore() {
 
   const handleSubmit = () => {
     if(name.length > 4 || name.length < 1) return <h1>wrong name</h1>
-    return mutate({ name, score: parseInt(totalScore) });
+    return mutate({ name, score: parseInt(totalScore) }, {
+      onSuccess: router.push('/scoreTable')
+    });
   };
 
   return (

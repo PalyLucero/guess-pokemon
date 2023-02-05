@@ -2,12 +2,13 @@ import Timer from "../components/Timer";
 import Image from "next/image";
 import { useAppContext } from "../context/context";
 import { ACTIONS } from "../context/reducer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Pokemon() {
   const [answer, setAnswer] = useState("");
   const [skipped, setSkipped] = useState(false);
   const [showClue, setShowClue] = useState(false);
+  const inputRef = useRef(null)
 
   const { state, dispatch } = useAppContext();
   const { currentPokemon, currentClueIndex, correctAnswer } = state;
@@ -34,6 +35,7 @@ export default function Pokemon() {
       setSkipped(false);
       setAnswer("");
     }
+    inputRef.current.focus()
   }, [correctAnswer, skipped, dispatch, currentPokemon]);
 
   const handleAsk = (e) => {
@@ -63,6 +65,7 @@ export default function Pokemon() {
         <div className="flex justify-between max-w-fit min-w-5/6 rounded p-2">
           <input
             placeholder="Enter your answer"
+            ref={inputRef}
             value={answer}
             onChange={(e) => setAnswer(e.target.value.toUpperCase())}
             className="bg-black bg-opacity-20 px-4 py-2 rounded placeholder:text-gray-600 placeholder:italic focus:outline-none focus:border-none focus:ring-none focus:ring-none"

@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const scoreData = async () => {
   const response = await fetch(`/api/score`)
@@ -25,5 +25,8 @@ export const useScoreData = () => {
   })
 }
 export const useAddScoreData = () => {
-  return useMutation((scoreData) => addScoreData(scoreData))
+  const queryClient = useQueryClient()
+  return useMutation((scoreData) => addScoreData(scoreData), {
+    onSuccess: () => queryClient.invalidateQueries('score')
+  })
 }
