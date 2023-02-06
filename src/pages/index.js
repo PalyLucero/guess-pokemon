@@ -1,52 +1,47 @@
-import Pokemon from "../components/Pokemon";
-import Navbar from "../components/Navbar";
-import SubmitScore from "../components/SubmitScore";
-import TestData from "../components/TestData";
-import Head from "next/head";
-import { useEffect } from "react";
-import { usePokemonData } from "../hooks/usePokemonData";
+import Link from "next/link";
+import ActionButtons from "../components/ActionButtons";
 import { useAppContext } from "../context/context";
+import { usePokemonData } from "../hooks/usePokemonData";
 import { ACTIONS } from "../context/reducer";
 
 export default function Home() {
-  const { data: pokemon, isLoading, isRefetching, refetch } = usePokemonData();
-
   const { state, dispatch } = useAppContext();
-  const { currentPokemon, currentPokemonIndex, gameDone, testMode } = state;
+  const highLight = state.testMode ? "is-success" : "is-error";
 
-  useEffect(() => {
-    if (isLoading) return;
-    if (currentPokemonIndex > 9) return dispatch({ type: ACTIONS.GAME_DONE });
+  const { refetch } = usePokemonData()
+
+  const handleTestMode = () => {
+    if (!state.testMode) {
+      return dispatch({ type: ACTIONS.TEST_MODE });
+    }
     dispatch({
-      type: ACTIONS.SET_POKEMON,
-      payload: pokemon[currentPokemonIndex],
+      type: ACTIONS.RESET,
+      payload: { fn: refetch, disableTestMode: true },
     });
-  }, [dispatch, pokemon, currentPokemonIndex, isLoading]);
-
-  if (isLoading || !currentPokemon || isRefetching)
-    return (
-      <div className="h-screen w-screen flex flex-col justify-around items-center">
-        Loading
-      </div>
-    );
+  };
 
   return (
-    <div className="h-screen w-screen flex flex-col justify-start items-center">
-      <Head>
-        <title>Pokemon Guesser</title>
-        <link rel="icon" href="/favicon.svg" />
-      </Head>
-      <Navbar refetch={refetch} />
-      <div className="flex flex-col justify-center items-center">
-        {testMode ? (
-          <div className="flex flex-col justify-around">
-            <Pokemon />
-            <TestData />
-          </div>
-        ) : (
-          <>{gameDone ? <SubmitScore /> : <Pokemon />}</>
-        )}
+    <div className="flex flex-col items-center justify-around w-screen h-screen">
+      <div className="nes-container with-title is-rounded w-3/4 h-fit">
+        <h1 className="title">INSTRUCTIONS:</h1>
+        <p>
+          Guess 10 Pokémon in a row
+        </p>
+        <div className="flex justify-around">
+          <Link href={"/game"}>
+            <button className="nes-btn is-primary">
+              PLAY
+            </button>
+          </Link>
+          <button
+            className={"nes-btn " + highLight}
+            onClick={() => handleTestMode()}
+          >
+            Test Mode
+          </button>
+        </div>
       </div>
+      <ActionButtons />
     </div>
   );
 }

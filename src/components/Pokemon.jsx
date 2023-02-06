@@ -8,7 +8,7 @@ export default function Pokemon() {
   const [answer, setAnswer] = useState("");
   const [skipped, setSkipped] = useState(false);
   const [showClue, setShowClue] = useState(false);
-  const inputRef = useRef(null)
+  const inputRef = useRef(null);
 
   const { state, dispatch } = useAppContext();
   const { currentPokemon, currentClueIndex, correctAnswer } = state;
@@ -35,7 +35,8 @@ export default function Pokemon() {
       setSkipped(false);
       setAnswer("");
     }
-    inputRef.current.focus()
+    setShowClue(false);
+    inputRef.current.focus();
   }, [correctAnswer, skipped, dispatch, currentPokemon]);
 
   const handleAsk = (e) => {
@@ -45,52 +46,54 @@ export default function Pokemon() {
   };
 
   return (
-    <div className="h-full flex flex-col items-center">
-      <div>
-        <Timer />
-        <div className=" h-min p-2 rounded">
-          <div className="bg-black bg-opacity-20 rounded grid place-items-center">
-            {id && (
-              <Image
-                src={`/pokemon/${id}.png`}
-                width={64}
-                height={64}
-                alt="Skip this"
-                priority
-                className={"h-52 w-52 " + blacked}
-              />
-            )}
+    <div className="w-9/12">
+      <Timer />
+      <div className="flex flex-col w-full items-center">
+        <div className="w-full flex justify-around">
+          {id && (
+            <Image
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+              width={256}
+              height={256}
+              alt="Skip this"
+              priority
+              className={"object-cover" + blacked}
+            />
+          )}
+        </div>
+        <div className="flex flex-col items-center w-full">
+          <div className="flex items-center w-full mb-2 space-x-2">
+            <input
+              placeholder="Enter your answer"
+              ref={inputRef}
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value.toUpperCase())}
+              className="nes-input"
+            />
+            <button
+              className="nes-btn is-error"
+              onClick={(e) => setSkipped(true)}
+            >
+              Skip
+            </button>
           </div>
-        </div>
-        <div className="flex justify-between max-w-fit min-w-5/6 rounded p-2">
-          <input
-            placeholder="Enter your answer"
-            ref={inputRef}
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value.toUpperCase())}
-            className="bg-black bg-opacity-20 px-4 py-2 rounded placeholder:text-gray-600 placeholder:italic focus:outline-none focus:border-none focus:ring-none focus:ring-none"
-          />
-          <div className="p-2" />
-          <button
-            className="bg-black bg-opacity-20 px-4 py-2 rounded flex justify-center"
-            onClick={(e) => setSkipped(true)}
-          >
-            Skip
-          </button>
-        </div>
-        <div className="flex justify-between max-w-fit rounded p-2">
-          {
-            <div className="bg-black bg-opacity-20 w-5/6 px-4 py-2 rounded">
-              {showClue && fullClues[currentClueIndex]}
-            </div>
-          }
-          <div className="p-2" />
-          <button
-            className="bg-black bg-opacity-20 px-4 py-2 rounded flex justify-center"
-            onClick={(e) => handleAsk(e)}
-          >
-            Ask
-          </button>
+          <div className="flex items-center justify-around w-full space-x-2">
+            {showClue ? (
+              <div className="w-full">
+                <div className="nes-balloon from-left max-w-full max-h-fit">
+                  {showClue && fullClues[currentClueIndex]}
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+            <button
+              className="nes-btn is-warning"
+              onClick={(e) => handleAsk(e)}
+            >
+              Clue
+            </button>
+          </div>
         </div>
       </div>
     </div>

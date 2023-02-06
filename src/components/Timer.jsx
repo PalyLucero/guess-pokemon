@@ -45,15 +45,17 @@ export default function Timer() {
 
   return (
     <div className="flex justify-between rounded p-2 w-full">
-      <div className="bg-black bg-opacity-20 px-4 py-2 rounded">
-        {correctAnswer
-          ? "+"
-          : `${minutes > 9 ? minutes : "0" + minutes}:${
-              seconds > 9 ? seconds : "0" + seconds
-            }`}
+      <div className="nes-badge">
+        <span className="is-dark">
+          {correctAnswer
+            ? "+"
+            : `${minutes > 9 ? minutes : "0" + minutes}:${
+                seconds > 9 ? seconds : "0" + seconds
+              }`}
+        </span>
       </div>
-      <div className="bg-black bg-opacity-20 px-4 py-2 rounded">
-        {totalScore}
+      <div className="nes-badge">
+        <span className="is-dark">{totalScore}</span>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { useAppContext } from "../context/context";
 export default function Navbar({ refetch }) {
   const { state, dispatch } = useAppContext();
 
-  const highLight = state.testMode ? "text-green-600" : "";
+  // const highLight = state.testMode ? "is-success" : "is-error";
 
   const handleReset = () => {
     dispatch({
@@ -15,41 +15,34 @@ export default function Navbar({ refetch }) {
     });
   };
 
-  const handleTestMode = () => {
-    if (!state.testMode) {
-      return dispatch({ type: ACTIONS.TEST_MODE });
-    }
-    dispatch({
-      type: ACTIONS.RESET,
-      payload: { fn: refetch, disableTestMode: true },
-    });
-  };
+  // const handleTestMode = () => {
+  //   if (!state.testMode) {
+  //     return dispatch({ type: ACTIONS.TEST_MODE });
+  //   }
+  //   dispatch({
+  //     type: ACTIONS.RESET,
+  //     payload: { fn: refetch, disableTestMode: true },
+  //   });
+  // };
 
   return (
-    <div className="bg-red-500 w-full flex justify-between">
-      <div className=" px-8 py-4 text-2xl font-bold text-center">
+    <div className="nes-container is-dark flex flex-col items-center">
+      <Link href="/" className="">
         Guess the Pokémon!
-      </div>
-      <div className="flex items-center px-4">
-        <Link
-          className="p-4 text-xl font-bold text-center"
-          href="/"
-          onClick={() => handleReset()}
-        >
-          Replay
+      </Link>
+      <div className="">
+        <Link className="" href="/game">
+          <button className="nes-btn" onClick={() => handleReset()}>
+            Replay
+          </button>
         </Link>
-        <button
-          className={"p-4 text-xl font-bold text-center " + highLight}
-          onClick={() => handleTestMode()}
-        >
-          Test Mode
-        </button>
-        <div className="p-4 text-xl font-bold text-center">
-          <Link href="/about">About</Link>
-        </div>
-        <div className="p-4 text-xl font-bold text-center">
-          <Link href="/scoreTable">Scores</Link>
-        </div>
+        <Link href="/about">
+          <button className="nes-btn">About</button>
+        </Link>
+
+        <Link href="/scoreTable">
+          <button className="nes-btn">Scores</button>
+        </Link>
       </div>
     </div>
   );
