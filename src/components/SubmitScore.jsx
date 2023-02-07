@@ -44,7 +44,7 @@ export default function SubmitScore() {
         <>
           <input
             placeholder="Enter your name (4 characters)"
-            value={name}
+            value={name.toUpperCase()}
             onChange={(e) => setName(e.target.value)}
             className="bg-black bg-opacity-20 w-full m-2 px-4 py-2 rounded placeholder:text-gray-600 placeholder:italic focus:outline-none focus:border-none focus:ring-none focus:ring-none"
           />

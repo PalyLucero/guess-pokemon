@@ -6,7 +6,7 @@ import { usePokemonData } from '../hooks/usePokemonData'
 export default function ScoreTable() {
   const { refetch } = usePokemonData()
   return (
-    <div>
+    <div className='flex flex-col'>
       <Navbar refetch={refetch} />
       <Table />
     </div>

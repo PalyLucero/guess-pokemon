@@ -5,7 +5,13 @@ const score = async (req, res) => {
 
   switch (method) {
     case "GET":
-      const scores = await prisma.score.findMany()
+      const scores = await prisma.score.findMany({
+        orderBy: [
+          {
+            score: 'desc'
+          }
+        ]
+      })
       return res.json(scores)
     case "POST":
       const searchRepeated = await prisma.score.findMany({

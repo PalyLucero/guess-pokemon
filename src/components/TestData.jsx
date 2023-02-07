@@ -3,9 +3,9 @@ import Image from 'next/image'
 import { useAppContext } from '../context/context'
 
 function TestData() {
-  const { state, dispatch } = useAppContext()
+  const { state } = useAppContext()
   const { currentPokemon } = state
-  const { id, name, types, height, weight } = currentPokemon
+  const { id, name, types } = currentPokemon
 
   if(!id) return
 
@@ -33,15 +33,6 @@ function TestData() {
             </tr>
           </tbody>
         </table>
-        {/* <div>Name: {name}</div>
-        <div>Type: {types[0]}</div>
-        {
-          types[1] ?
-            <div>Type 2: {types[1]}</div> : null
-        }
-        <div>Height: {height}</div>
-        <div>Weight: {weight}</div>
-        <div>DexID: {id}</div> */}
       </div>
     </div>
   )
