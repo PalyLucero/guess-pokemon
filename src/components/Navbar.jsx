@@ -15,22 +15,22 @@ export default function Navbar({ refetch }) {
 
 
   return (
-    <div className="nes-container is-dark flex flex-col items-center">
+    <div className="nes-container is-dark flex flex-col items-center text-center">
       <Link href="/" className="text-white hover:no-underline">
         Guess the Pokémon!
       </Link>
-      <div className="">
-        <Link className="" href="/game">
-          <button className="nes-btn" onClick={() => handleReset()}>
-            Replay
+      <div className="flex flex-col items-center sm:flex sm:flex-row">
+        <Link className="h-full w-full sm:h-auto sm:w-auto" href="/game">
+          <button className="nes-btn h-full w-full sm:w-auto" onClick={() => handleReset()}>
+            New game
           </button>
         </Link>
-        <Link href="/about">
-          <button className="nes-btn">About</button>
+        <Link className="h-full w-full sm:h-auto sm:w-auto" href="/about">
+          <button className="nes-btn h-full w-full sm:w-auto">About</button>
         </Link>
 
-        <Link href="/scoreTable">
-          <button className="nes-btn">Scores</button>
+        <Link className="h-full w-full sm:h-auto sm:w-auto" href="/scoreTable">
+          <button className="nes-btn h-full w-full sm:w-auto">Score table</button>
         </Link>
       </div>
     </div>

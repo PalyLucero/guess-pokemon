@@ -5,7 +5,7 @@ import { useAppContext } from '../context/context'
 function TestData() {
   const { state } = useAppContext()
   const { currentPokemon } = state
-  const { id, name, types } = currentPokemon
+  const { id, name, typesEnglish } = currentPokemon
 
   if(!id) return
 
@@ -29,7 +29,7 @@ function TestData() {
             <tr>
               <td>{name.toUpperCase()}</td>
               <td>{id}</td>
-              <td>{types[0].toUpperCase() +`${types[1] ? ", " + types[1].toUpperCase() : ""}`}</td>
+              <td>{typesEnglish[0].toUpperCase() +`${typesEnglish[1] ? ", " + typesEnglish[1].toUpperCase() : ""}`}</td>
             </tr>
           </tbody>
         </table>

@@ -30,7 +30,7 @@ export default function Table() {
               );
             })
           ) : (
-            <div>Loading...</div>
+            null
           )}
         </tbody>
       </table>

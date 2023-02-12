@@ -21,7 +21,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-around w-screen h-screen">
+    <div className="flex flex-col items-center justify-around p-8 w-screen h-screen">
       <div className="nes-container with-title is-rounded w-3/4 h-fit">
         <h1 className="title">INSTRUCTIONS:</h1>
         <p>
@@ -40,6 +40,17 @@ export default function Home() {
             Test Mode
           </button>
         </div>
+      </div>
+      <div className="flex justify-around w-3/4 fixed z-90 bottom-8">
+        <Link href={"/list"}>
+          <button className="nes-btn">Pokemon list</button>
+        </Link>
+        <Link href={"/about"}>
+          <button className="nes-btn">About</button>
+        </Link>
+        <Link href={"/scoreTable"}>
+          <button className="nes-btn">Score table</button>
+        </Link>
       </div>
       <ActionButtons />
     </div>

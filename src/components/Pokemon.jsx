@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useAppContext } from "../context/context";
 import { ACTIONS } from "../context/reducer";
 import { useState, useEffect, useRef } from "react";
+import shuffle from "../utils/shuffle";
 
 export default function Pokemon() {
   const [answer, setAnswer] = useState("");
@@ -45,6 +46,10 @@ export default function Pokemon() {
     dispatch({ type: ACTIONS.NEXT_CLUE });
   };
 
+  const joinClues = (descriptions, extras) => {
+    return shuffle([...descriptions, ...extras]);
+  };
+
   return (
     <div className="w-9/12">
       <Timer />
@@ -81,7 +86,7 @@ export default function Pokemon() {
             {showClue ? (
               <div className="w-full">
                 <div className="nes-balloon from-left max-w-full max-h-fit">
-                  {showClue && fullClues[currentClueIndex]}
+                  {showClue && fullClues.english[currentClueIndex]}
                 </div>
               </div>
             ) : (

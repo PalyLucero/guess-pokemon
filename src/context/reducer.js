@@ -60,7 +60,7 @@ export const AppReducer = (state, action) => {
         skippedPokemon: [...skippedPokemon, action.payload]
       }
     case ACTIONS.NEXT_CLUE:
-      if (currentPokemon.clues.length - 1 === currentClueIndex) {
+      if (currentPokemon.description.english.length - 1 === currentClueIndex) {
         return {
           ...state,
           currentClueIndex: 0

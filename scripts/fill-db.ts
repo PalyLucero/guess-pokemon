@@ -1,27 +1,6 @@
-import { PokemonClient } from "pokenode-ts"
+import { FlavorText, PokemonClient } from "pokenode-ts"
 import { prisma } from "../database/prisma"
 
-const shuffle = (array: string[]) => {
-  const shuffled = array.sort((a: string, b: string) => Math.random() - 0.5)
-  return shuffled
-}
-
-const makeClues = (types: string[], height: number, weight: number, name: string) => {
-
-  if (!types || !name) return ["no clues yet"]
-
-  const heightClue = `This pokémon height is ${height}`
-  const weightClue = `This pokémon weight is ${weight}`
-  const nameClue = `The name starts with ${name.slice(0, 3).toUpperCase()}`
-  const typeClue = `The 1st type is ${types[0].toUpperCase()}`
-  let SecTypeClue: string | null = null
-  if (types[1]) SecTypeClue = `The 2nd type is ${types[1].toUpperCase()}`
-
-  let clues = [typeClue, heightClue, weightClue, nameClue]
-  if (SecTypeClue) clues.push(SecTypeClue)
-
-  return shuffle(clues)
-}
 
 const fillDb = async () => {
 
@@ -33,45 +12,134 @@ const fillDb = async () => {
     pokemonIds.push(i)
   }
 
-  const resPokemon = await Promise.all(
-    pokemonIds.map(async (id) => {
-      return await pokeApi.getPokemonById(id)
-    })
-  )
+  const createPokemon = async (id: number) => {
 
-  const getDescriptions = async (id: number) => {
-    const species = await pokeApi.getPokemonSpeciesById(id)
-    const name = species.name
-    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1)
-    const description = species.flavor_text_entries.filter(text => text.language.name === "en" && !text.flavor_text.includes(capitalizedName))
-    return { desc: description.map((text) => { return text.flavor_text }), name }
+    const { weight, height, types, name } = await pokeApi.getPokemonById(id)
+    const { flavor_text_entries } = await pokeApi.getPokemonSpeciesById(id)
+
+    const parseName = (name: string) => {
+      let parsedName = ""
+      switch (name) {
+        case "nidoran-f":
+          return parsedName = "nidoran"
+        case "nidoran-m":
+          return parsedName = "nidoran"
+        case "mr-mime":
+          return parsedName = "mr. mime"
+        case "farfetchd":
+          return parsedName = "farfetch’d"
+        default:
+          return parsedName = name
+      }
+    }
+
+    const parseDescriptions = (descriptions: FlavorText[]) => {
+      const descriptionEn = descriptions.filter(text => text.language.name === "en")
+      const descriptionEs = descriptions.filter(text => text.language.name === "es")
+
+      const parsedDescriptionsEn = descriptionEn.map(text => {
+        return erasePokemonName(text.flavor_text, parseName(name), "[NAME]")
+      })
+      const parsedDescriptionsEs = descriptionEs.map(text => {
+        return erasePokemonName(text.flavor_text, parseName(name), "[NOMBRE]")
+      })
+
+      const uniqueDescriptionsEn = [];
+      parsedDescriptionsEn.forEach((c) => {
+        if (!uniqueDescriptionsEn.includes(c)) {
+          uniqueDescriptionsEn.push(c);
+        }
+      });
+      const uniqueDescriptionsEs = [];
+      parsedDescriptionsEs.forEach((c) => {
+        if (!uniqueDescriptionsEs.includes(c)) {
+          uniqueDescriptionsEs.push(c);
+        }
+      });
+
+      return {
+        uniqueDescriptionsEn,
+        uniqueDescriptionsEs
+      }
+    }
+
+    const pokemon = {
+      id: id,
+      name: parseName(name),
+      height: height,
+      weight: weight,
+      typesEnglish: JSON.stringify(types.map(t => t.type.name)),
+      typesSpanish: JSON.stringify(types.map(t => translateTypes(t.type.name))),
+      descriptionEnglish: JSON.stringify(parseDescriptions(flavor_text_entries).uniqueDescriptionsEn),
+      descriptionSpanish: JSON.stringify(parseDescriptions(flavor_text_entries).uniqueDescriptionsEs)
+    }
+
+    return pokemon
   }
 
-  const resDecriptions = await Promise.all(
+  const allPokemon = await Promise.all(
     pokemonIds.map(async (id) => {
-      return await getDescriptions(id)
+      return await createPokemon(id)
     })
   )
 
-  const pokemonData = resPokemon.map(responses => {
-    const poke = responses
-    const types = poke.types.map((t) => t.type.name)
-    return {
-      id: poke.id,
-      name: poke.name,
-      types: JSON.stringify(types),
-      weight: poke.weight,
-      height: poke.height,
-      clues: JSON.stringify(makeClues(types, poke.height, poke.weight, poke.name)),
-      description: JSON.stringify(resDecriptions.filter(desc => desc.name === poke.name)[0].desc)
-    }
-  })
-
   const creation = await prisma.pokemon.createMany({
-    data: pokemonData
+    data: allPokemon
   })
 
   console.log('Creation?', creation)
+}
+
+function erasePokemonName(string, name, placeholder) {
+  const nameRegex = new RegExp(name, 'gi');
+  return string.replace(nameRegex, placeholder);
+}
+
+function translateTypes(type) {
+  switch (type) {
+    case "normal":
+      return "normal"
+    case "fighting":
+      return "lucha"
+    case "flying":
+      return "volador"
+    case "poison":
+      return "veneno"
+    case "ground":
+      return "tierra"
+    case "rock":
+      return "roca"
+    case "bug":
+      return "bicho"
+    case "ghost":
+      return "fantasma"
+    case "steel":
+      return "acero"
+    case "fire":
+      return "fuego"
+    case "water":
+      return "agua"
+    case "grass":
+      return "planta"
+    case "electric":
+      return "eléctrico"
+    case "psychic":
+      return "psíquico"
+    case "ice":
+      return "hielo"
+    case "dragon":
+      return "dragón"
+    case "dark":
+      return "siniestro"
+    case "fairy":
+      return "hada"
+    case "unknown":
+      return "desconocido"
+    case "shadow":
+      return "oscuro"
+    default:
+      return
+  }
 }
 
 fillDb()

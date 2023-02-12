@@ -13,13 +13,14 @@ datasource db {
 }
 
 model Pokemon {
-  id          Int    @id
-  name        String @unique
-  types       String
-  weight      Int
-  height      Int
-  clues       String @db.LongText
-  description String @db.LongText
+  id                 Int    @id
+  name               String
+  typesSpanish       String
+  typesEnglish       String
+  weight             Int
+  height             Int
+  descriptionEnglish String @db.LongText
+  descriptionSpanish String @db.LongText
 }
 
 model Score {

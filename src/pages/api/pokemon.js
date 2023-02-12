@@ -1,5 +1,5 @@
 import { prisma } from "../../../database/prisma"
-import parsePokeData from "../../utils/parsePokeData"
+import parsePokemonData from "../../utils/parsePokemonData"
 import shuffle from "../../utils/shuffle"
 
 const getPokemon = async (req, res) => {
@@ -10,13 +10,16 @@ const getPokemon = async (req, res) => {
     case "GET":
       const pokemonRaw = await prisma.pokemon.findMany()
       const allPokemon = pokemonRaw.map(poke => {
-        const { cluesParsed, descParsed } = parsePokeData(poke.clues, poke.description, poke.name)
+        const { types, description, extraClues, fullClues } = parsePokemonData(poke)
         return {
-          ...poke,
-          types: JSON.parse(poke.types),
-          clues: cluesParsed,
-          description: descParsed,
-          fullClues: shuffle(cluesParsed.concat(descParsed))
+          id: poke.id,
+          name: poke.name,
+          weight: poke.weight,
+          height: poke.height,
+          description,
+          types,
+          extraClues,
+          fullClues
         }
       })
       if (all === 'true') return res.json({ allPokemon: allPokemon })

@@ -1,22 +1,42 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import { useAllPokemonData } from '../hooks/usePokemonData'
+import { usePokemonData } from '../hooks/usePokemonData'
 
 export default function List() {
 
+  const [showGoToTop, setShowGoTotop] = useState(false)
   const { data: allPokemon, isLoading } = useAllPokemonData()
+  const { refetch } = usePokemonData()
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 400) {
+        setShowGoTotop(true);
+      } else {
+        setShowGoTotop(false);
+      }
+    });
+  }, []);
+
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   if (isLoading) return
 
   return <div>
-    <Navbar />
+    <Navbar refetch={refetch} />
     <div className='flex flex-wrap'>
       {
         isLoading ?
           <h1>Loading...</h1> :
           allPokemon.map(poke => {
-            const { id, name, height, weight, types, fullClues } = poke
+            const { id, name, height, weight, types, description } = poke
             return <div key={id} className='xl:w-1/2 w-full px-4 my-8'>
               <div className="nes-container is-dark with-title">
                 <h1 className='title'>{name.toUpperCase()}</h1>
@@ -34,15 +54,15 @@ export default function List() {
                           </tr>
                           <tr>
                             <td>HEIGHT</td>
-                            <td>{height}</td>
+                            <td>{height / 10}m</td>
                           </tr>
                           <tr>
                             <td>WEIGHT</td>
-                            <td>{weight}</td>
+                            <td>{weight / 10}Kg</td>
                           </tr>
                           <tr>
                             <td>TYPE(S)</td>
-                            <td>{types[0].toUpperCase() + `${types[1] ? ", " + types[1].toUpperCase() : ""}`}</td>
+                            <td>{types.english[0].toUpperCase() + `${types.english[1] ? ", " + types.english[1].toUpperCase() : ""}`}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -51,8 +71,8 @@ export default function List() {
                 </div>
                 <div>
                   {
-                    fullClues.map((clue) => {
-                      return <p key={id + "clue" + name} className="hidden">{clue}</p>
+                    description.english.map((desc, index) => {
+                      return <p key={id + "desc" + name + index} className="hidden">{desc}</p>
                     })
                   }
                 </div>
@@ -61,33 +81,10 @@ export default function List() {
           })
       }
     </div>
+    {
+      <div className='fixed z-90 bottom-8 right-8'>
+        {showGoToTop && <button className='nes-btn is-error rotate-90' onClick={goToTop}>{"<"}</button>}
+      </div>
+    }
   </div>
 }
-
-{/*
- <div className='nes-container flex items-center m-4 space-x-4'>
-  <div className=''>
-  {
-    id && <Image src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`} width={64} height={64} alt="Skip this" priority className={'h-24 w-auto'} />
-  }
-</div>
-<div className='nes-table-responsive w-full'>
-  <table className='nes-table is-centered'>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>DexID</th>
-        <th>Type(s)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{name.toUpperCase()}</td>
-        <td>{id}</td>
-        <td>{types[0].toUpperCase() +`${types[1] ? ", " + types[1].toUpperCase() : ""}`}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-</div> 
-*/}
