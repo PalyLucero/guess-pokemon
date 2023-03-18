@@ -1,10 +1,25 @@
 import Link from "next/link";
-import ActionButtons from "../components/ActionButtons";
+import { useRouter } from "next/router";
 import { useAppContext } from "../context/context";
 import { usePokemonData } from "../hooks/usePokemonData";
 import { ACTIONS } from "../context/reducer";
+import ActionButtons from "../components/ActionButtons";
+
+import en from "../../locales/en"
+import es from "../../locales/es"
 
 export default function Home() {
+
+  const router = useRouter()
+  const { locale } = router
+  // const t = locale === "en" ? en.index : es.index
+  const t = locale === "en" ? en.index : en.index
+  
+  const changeLanguage = (e) => {
+    const locale = e.target.value;
+    router.push(router.pathname, router.asPath, { locale: locale });
+  };
+
   const { state, dispatch } = useAppContext();
   const highLight = state.testMode ? "is-success" : "is-error";
 
@@ -23,33 +38,39 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-around p-8 w-screen h-screen">
       <div className="nes-container with-title is-rounded w-3/4 h-fit">
-        <h1 className="title">INSTRUCTIONS:</h1>
+        <h1 className="title">{t.title}</h1>
         <p>
-          Guess 10 Pokémon in a row
+          {t.instructions}
         </p>
         <div className="flex justify-around">
           <Link href={"/game"}>
             <button className="nes-btn is-primary">
-              PLAY
+              {t.playBtn}
             </button>
           </Link>
           <button
             className={"nes-btn " + highLight}
             onClick={() => handleTestMode()}
           >
-            Test Mode
+            {t.testBtn}
           </button>
         </div>
+        {/* <div className="nes-select p-4">
+          <select onChange={changeLanguage} defaultValue={locale}>
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </div> */}
       </div>
       <div className="flex justify-around w-3/4 fixed z-90 bottom-8">
         <Link href={"/list"}>
-          <button className="nes-btn">Pokemon list</button>
+          <button className="nes-btn">{t.listBtn}</button>
         </Link>
         <Link href={"/about"}>
-          <button className="nes-btn">About</button>
+          <button className="nes-btn">{t.aboutBtn}</button>
         </Link>
         <Link href={"/scoreTable"}>
-          <button className="nes-btn">Score table</button>
+          <button className="nes-btn">{t.scoreBtn}</button>
         </Link>
       </div>
       <ActionButtons />

@@ -7,9 +7,10 @@ export default function SubmitScore() {
   const { state, dispatch } = useAppContext();
   const { remainingTime, totalScore } = state;
   const { mutate } = useAddScoreData();
-  const router = useRouter()
+  const router = useRouter();
 
   const [name, setName] = useState("");
+  const [inputError, setInputError] = useState("");
 
   const parsedTime = () => {
     const minutes = Math.floor(remainingTime / 60);
@@ -20,37 +21,54 @@ export default function SubmitScore() {
     }`;
   };
 
+  const handleChange = (value) => {
+    setName(value);
+    console.log({ inputError, name });
+    if (value.length < 5 && value.length > 0) {
+      return setInputError("is-success");
+    }
+    return setInputError("is-error");
+  };
+
   const handleSubmit = () => {
-    if(name.length > 4 || name.length < 1) return <h1>wrong name</h1>
-    return mutate({ name, score: parseInt(totalScore) }, {
-      onSuccess: router.push('/scoreTable')
-    });
+    if (inputError !== "is-success") return;
+    return mutate(
+      { name, score: parseInt(totalScore) },
+      {
+        onSuccess: router.push("/scoreTable"),
+      }
+    );
   };
 
   return (
     <div className="flex flex-col justify-between items-center">
-      <div className="m-2">
+      <div className="m-4">
         {totalScore === 0 ? (
-          "GAME OVER! Try again pressing the Replay button"
+          <div className="nes-container with-title">
+            <p className="title">GAME OVER!</p>
+            <p>Try again with the New game button</p>
+          </div>
         ) : (
-          <div className="flex flex-col items-center justify-between bg-black bg-opacity-20 rounded p-2">
-            <div>GAME OVER!</div>
-            <div>Remainig Time: {parsedTime()}</div>
-            <div>Score: {totalScore}</div>
+          <div className="nes-container with-title is-centered">
+            <p className="title">GAME OVER!</p>
+            <p>Remainig Time: {parsedTime()}</p>
+            <p>Score: {totalScore}</p>
           </div>
         )}
       </div>
       {totalScore > 0 ? (
         <>
-          <input
-            placeholder="Enter your name (4 characters)"
-            value={name.toUpperCase()}
-            onChange={(e) => setName(e.target.value)}
-            className="bg-black bg-opacity-20 w-full m-2 px-4 py-2 rounded placeholder:text-gray-600 placeholder:italic focus:outline-none focus:border-none focus:ring-none focus:ring-none"
-          />
+          <div className="nes-field">
+            <input
+              placeholder="Your name"
+              value={name.toUpperCase()}
+              onChange={(e) => handleChange(e.target.value)}
+              className={`nes-input ${inputError}`}
+            />
+          </div>
           <button
-            className="bg-black bg-opacity-20 px-2 py-2 rounded m-2 flex justify-center"
             onClick={(e) => handleSubmit()}
+            className={`nes-btn ${inputError}`}
           >
             Submit
           </button>

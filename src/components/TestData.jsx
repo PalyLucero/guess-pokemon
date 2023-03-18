@@ -1,23 +1,30 @@
-import React from 'react'
-import Image from 'next/image'
-import { useAppContext } from '../context/context'
+import React from "react";
+import Image from "next/image";
+import { useAppContext } from "../context/context";
 
 function TestData() {
-  const { state } = useAppContext()
-  const { currentPokemon } = state
-  const { id, name, typesEnglish } = currentPokemon
+  const { state } = useAppContext();
+  const { currentPokemon } = state;
+  const { id, name, types } = currentPokemon;
 
-  if(!id) return
+  if (!id) return;
 
   return (
-    <div className='nes-container flex items-center m-4 space-x-4'>
-      <div className=''>
-        {
-          id && <Image src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`} width={64} height={64} alt="Skip this" priority className={'h-24 w-auto'} />
-        }
+    <div className="nes-container flex items-center m-4 space-x-4">
+      <div className="">
+        {id && (
+          <Image
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+            width={64}
+            height={64}
+            alt="Skip this"
+            priority
+            className={"h-24 w-auto"}
+          />
+        )}
       </div>
-      <div className='nes-table-responsive w-full'>
-        <table className='nes-table is-centered'>
+      <div className="nes-table-responsive w-full">
+        <table className="nes-table is-centered">
           <thead>
             <tr>
               <th>Name</th>
@@ -29,13 +36,20 @@ function TestData() {
             <tr>
               <td>{name.toUpperCase()}</td>
               <td>{id}</td>
-              <td>{typesEnglish[0].toUpperCase() +`${typesEnglish[1] ? ", " + typesEnglish[1].toUpperCase() : ""}`}</td>
+              <td>
+                {types.english[0].toUpperCase() +
+                  `${
+                    types.english[1]
+                      ? ", " + types.english[1].toUpperCase()
+                      : ""
+                  }`}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  )
+  );
 }
 
-export default TestData
+export default TestData;
