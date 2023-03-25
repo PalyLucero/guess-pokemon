@@ -14,7 +14,7 @@ export default function Home() {
   const { locale } = router
   // const t = locale === "en" ? en.index : es.index
   const t = locale === "en" ? en.index : en.index
-  
+
   const changeLanguage = (e) => {
     const locale = e.target.value;
     router.push(router.pathname, router.asPath, { locale: locale });
@@ -37,11 +37,15 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-around p-8 w-screen h-screen">
-      <div className="nes-container with-title is-rounded w-3/4 h-fit">
+      <div className="nes-container with-title is-rounded w-10/12 h-fit">
         <h1 className="title">{t.title}</h1>
-        <p>
-          {t.instructions}
-        </p>
+        <ul className="nes-list is-disc p-4">
+          <li className="py-1">{t.instructions.objective}</li>
+          <li className="py-1">{t.instructions.gameplay}</li>
+          <li className="py-1">{t.instructions.scoring}</li>
+          <li className="py-1">{t.instructions.skip}</li>
+          <li className="py-1">{t.instructions.time}</li>
+        </ul>
         <div className="flex justify-around">
           <Link href={"/game"}>
             <button className="nes-btn is-primary">

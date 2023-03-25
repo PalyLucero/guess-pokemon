@@ -1,6 +1,12 @@
 const index = {
   title: "INSTRUCTIONS:",
-  instructions: "Guess 10 Pokémon in a row",
+  instructions: {
+    objective: "Identify 10 Pokemon based on their silhouette",
+    gameplay: "Type in the name of the Pokemon as quickly as possible",
+    scoring: "Game ends after 10 questions or when the timer runs out",
+    skip: "You can skip a question, but it won't earn any points",
+    time: "Initially you have 30 seconds, and each correct answer earns additional time",
+  },
   playBtn: "Play",
   testBtn: "Test mode",
   listBtn: "PKMN list",

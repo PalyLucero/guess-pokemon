@@ -4,7 +4,7 @@ import { useScoreData } from "../hooks/useScoreData";
 export default function Table() {
   const { data: scores, isLoading } = useScoreData();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="h-screen w-screen flex flex-col justify-around items-center">Loading...</div>;
 
   return (
     <div className="nes-table-responsive flex w-fit justify-center my-8">
