@@ -7,7 +7,8 @@ export const initialState = {
   skippedPokemon: [],
   remainingTime: 0,
   totalScore: 0,
-  testMode: false
+  testMode: false,
+  lang: "en"
 }
 
 export const ACTIONS = {
@@ -20,7 +21,8 @@ export const ACTIONS = {
   CORRECT_ANSWER: 'CORRECT_ANSWER',
   REMAINING_TIME: 'REMAINING_TIME',
   TOTAL_SCORE: 'TOTAL_SCORE',
-  TEST_MODE: 'TEST_MODE'
+  TEST_MODE: 'TEST_MODE',
+  CHANGE_LANG: 'CHANGE_LANG'
 }
 
 export const AppReducer = (state, action) => {
@@ -88,6 +90,11 @@ export const AppReducer = (state, action) => {
       }
     case ACTIONS.TEST_MODE:
       return testMode ? { ...state, testMode: false } : { ...state, testMode: true }
+    case ACTIONS.CHANGE_LANG:
+      return {
+        ...state,
+        lang: action.payload
+      }
     default:
       return state
   }

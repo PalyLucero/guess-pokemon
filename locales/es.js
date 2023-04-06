@@ -1,46 +1,71 @@
 const index = {
   title: "INSTRUCCIONES:",
-  instructions: "Adivina 10 pokemones seguidos",
+  instructions: {
+    objective: "Identifica 10 Pokémon por su silueta",
+    gameplay: "Escribe el nombre del Pokémon lo más rápido posible",
+    scoring: "El juego termina después de 10 preguntas o cuando se acabe el tiempo",
+    skip: "Puedes saltar una pregunta, pero no ganarás puntos",
+    time: "Inicialmente tienes 30 segundos, y cada respuesta correcta te da tiempo adicional",
+  },
   playBtn: "Jugar",
-  testBtn: "Modo prueba",
+  testBtn: "Modo de prueba",
   listBtn: "Lista PKMN",
-  aboutBtn: "Este proyecto",
-  scoreBtn: "Puntuaciones"
+  aboutBtn: "Acerca de",
+  scoreBtn: "Puntuaciones",
+  loading: "Cargando..."
 }
+
 const list = {
   id: "DexID",
   height: "ALTURA",
   weight: "PESO",
   types: "TIPO(S)",
 }
-const about = {}
+
+const about = {
+  project: [
+    "Nuestro juego web de trivia de Pokémon utiliza tecnologías web modernas para ofrecer una experiencia de usuario rápida, receptiva y atractiva. Next.js nos permite crear páginas renderizadas en el servidor y proporciona características de optimización como la división de código y el prefetching automático. Prisma simplifica las interacciones con la base de datos con sus consultas seguras por tipo, migraciones automáticas y diseñador de esquemas, mientras que la tecnología de base de datos distribuida de Planetscale garantiza una alta disponibilidad. React Query simplifica las llamadas a la API con su API simple y flexible, y NESS.css y Tailwind proporcionan opciones de estilo modernas y eficientes.",
+    "Al priorizar la gestión eficiente de datos, los tiempos de carga rápidos y un diseño elegante, nuestro juego web de trivia de Pokémon garantiza una experiencia agradable para los jugadores."
+  ],
+  me: [
+    "¡Hola! Soy un joven desarrollador web de Argentina que está apasionado por construir aplicaciones web increíbles que la gente ama usar. Aunque todavía no tengo mucha experiencia profesional, aprendo rápido y siempre estoy ansioso por mejorar mis habilidades. Creo en la importancia de las prácticas ágiles de desarrollo y ser adaptable a nuevos desafíos. Soy un jugador de equipo y valoro la colaboración para lograr grandes resultados. ¡Espero que disfruten jugando mi juego de trivia de Pokémon tanto como yo disfruté construyéndolo!",
+    "Si tienes alguna pregunta o simplemente quieres saludar, no dudes en ponerte en contacto conmigo utilizando los botones de abajo. ¡Me encantaría conectarme contigo y escuchar tus comentarios!"
+  ],
+  copyMsg: "Copiado al portapapeles",
+  closeBtn: "Cerrar"
+}
 
 const pokemon = {
   skipBtn: "Saltar",
   clueBtn: "Pista",
   placeholder: "Escribe tu respuesta"
 }
+
 const navbar = {
-  title: "Adivina el Pokémon!",
+  title: "¡Adivina el Pokémon!",
   playBtn: "Nuevo juego",
-  aboutBtn: "Este proyecto",
+  aboutBtn: "Acerca de",
   scoreBtn: "Puntuaciones"
 }
+
 const submitScore = {
-  gameOverBad: "JUEGO TERMINADO! Intenta nuevamente presionando el botón de Nuevo juego",
-  gameOver: "JUEGO TERMINADO!",
+  gameOverTitle: "¡FIN DEL JUEGO!",
+  gameOverBadMessage: "Inténtalo de nuevo haciendo clic en el botón de Nuevo juego",
   time: "Tiempo restante:",
   score: "Puntuación:",
-  placeholder: "Tu nombre (4 caracteres max)",
+  placeholder: "Tu nombre (4 caracteres máx.)",
   submitBtn: "Enviar"
 }
+
 const table = {
   name: "NOMBRE",
-  score: "PUNTUACIÓN"
+  score: "PUNTUACIÓN",
+  loading: "Cargando..."
 }
+
 const testData = {
   name: "Nombre",
-  id: "DexID",
+  id: "ID Pokédex",
   types: "Tipo(s)",
 }
 
@@ -54,4 +79,5 @@ const es = {
   table,
   testData
 }
+
 export default es

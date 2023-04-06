@@ -1,14 +1,24 @@
 import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
+import ActionButtons from '../components/ActionButtons'
 import { useAllPokemonData } from '../hooks/usePokemonData'
 import { usePokemonData } from '../hooks/usePokemonData'
+import { useAppContext } from "../context/context";
+
+import en from "../../locales/en.js";
+import es from "../../locales/es";
 
 export default function List() {
 
   const [showGoToTop, setShowGoTotop] = useState(false)
   const { data: allPokemon, isLoading } = useAllPokemonData()
   const { refetch } = usePokemonData()
+
+  const { state } = useAppContext();
+  const { lang } = state;
+
+  const t = lang === "en" ? en.list : es.list;
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -34,7 +44,7 @@ export default function List() {
     <div className='flex flex-wrap'>
       {
         isLoading ?
-          <h1>Loading...</h1> :
+          <h1>{t.loading}</h1> :
           allPokemon.map(poke => {
             const { id, name, height, weight, types, description } = poke
             return <div key={id} className='xl:w-1/2 w-full px-4 my-8'>
@@ -49,20 +59,24 @@ export default function List() {
                       <table className='nes-table is-bordered is-dark h-full w-full'>
                         <tbody>
                           <tr>
-                            <td>DexID</td>
+                            <td>{t.id}</td>
                             <td>{id}</td>
                           </tr>
                           <tr>
-                            <td>HEIGHT</td>
+                            <td>{t.height}</td>
                             <td>{height / 10}m</td>
                           </tr>
                           <tr>
-                            <td>WEIGHT</td>
+                            <td>{t.weight}</td>
                             <td>{weight / 10}Kg</td>
                           </tr>
                           <tr>
-                            <td>TYPE(S)</td>
-                            <td>{types.english[0].toUpperCase() + `${types.english[1] ? ", " + types.english[1].toUpperCase() : ""}`}</td>
+                            <td>{t.types}</td>
+                            {
+                              lang === "en" ?
+                                <td>{types.english[0].toUpperCase() + `${types.english[1] ? ", " + types.english[1].toUpperCase() : ""}`}</td> :
+                                <td>{types.spanish[0].toUpperCase() + `${types.spanish[1] ? ", " + types.spanish[1].toUpperCase() : ""}`}</td>
+                            }
                           </tr>
                         </tbody>
                       </table>
@@ -86,5 +100,6 @@ export default function List() {
         {showGoToTop && <button className='nes-btn is-error rotate-90' onClick={goToTop}>{"<"}</button>}
       </div>
     }
+    <ActionButtons />
   </div>
 }

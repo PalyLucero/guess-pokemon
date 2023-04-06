@@ -5,6 +5,9 @@ import { ACTIONS } from "../context/reducer";
 import { useState, useEffect, useRef } from "react";
 import shuffle from "../utils/shuffle";
 
+import en from "../../locales/en.js";
+import es from "../../locales/es";
+
 export default function Pokemon() {
   const [answer, setAnswer] = useState("");
   const [skipped, setSkipped] = useState(false);
@@ -12,10 +15,12 @@ export default function Pokemon() {
   const inputRef = useRef(null);
 
   const { state, dispatch } = useAppContext();
-  const { currentPokemon, currentClueIndex, correctAnswer } = state;
+  const { currentPokemon, currentClueIndex, correctAnswer, lang } = state;
 
   const { id, name, fullClues } = currentPokemon;
   const blacked = correctAnswer ? "" : "filter brightness-0";
+
+  const t = lang === "en" ? en.pokemon : es.pokemon;
 
   useEffect(() => {
     if (name === answer.toLowerCase()) {
@@ -69,7 +74,7 @@ export default function Pokemon() {
         <div className="flex flex-col items-center w-full">
           <div className="flex items-center w-full mb-2 space-x-2">
             <input
-              placeholder="Enter your answer"
+              placeholder={t.placeholder}
               ref={inputRef}
               value={answer}
               onChange={(e) => setAnswer(e.target.value.toUpperCase())}
@@ -79,14 +84,16 @@ export default function Pokemon() {
               className="nes-btn is-error"
               onClick={(e) => setSkipped(true)}
             >
-              Skip
+              {t.skipBtn}
             </button>
           </div>
           <div className="flex items-center justify-around w-full space-x-2">
             {showClue ? (
               <div className="w-full">
                 <div className="nes-balloon from-left max-w-full max-h-fit">
-                  {showClue && fullClues.english[currentClueIndex]}
+                  {showClue && lang === "en"
+                    ? fullClues.english[currentClueIndex]
+                    : fullClues.spanish[currentClueIndex]}
                 </div>
               </div>
             ) : (
@@ -96,7 +103,7 @@ export default function Pokemon() {
               className="nes-btn is-warning"
               onClick={(e) => handleAsk(e)}
             >
-              Clue
+              {t.clueBtn}
             </button>
           </div>
         </div>

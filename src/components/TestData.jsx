@@ -2,10 +2,15 @@ import React from "react";
 import Image from "next/image";
 import { useAppContext } from "../context/context";
 
+import en from "../../locales/en.js";
+import es from "../../locales/es";
+
 function TestData() {
   const { state } = useAppContext();
   const { currentPokemon } = state;
-  const { id, name, types } = currentPokemon;
+  const { id, name, types, lang } = currentPokemon;
+
+  const t = lang === "en" ? en.testData : es.testData;
 
   if (!id) return;
 
@@ -27,23 +32,34 @@ function TestData() {
         <table className="nes-table is-centered">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>DexID</th>
-              <th>Type(s)</th>
+              <th>{t.name}</th>
+              <th>{t.id}</th>
+              <th>{t.types}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{name.toUpperCase()}</td>
               <td>{id}</td>
-              <td>
-                {types.english[0].toUpperCase() +
-                  `${
-                    types.english[1]
-                      ? ", " + types.english[1].toUpperCase()
-                      : ""
-                  }`}
-              </td>
+              {lang === "en" ? (
+                <td>
+                  {types.english[0].toUpperCase() +
+                    `${
+                      types.english[1]
+                        ? ", " + types.english[1].toUpperCase()
+                        : ""
+                    }`}
+                </td>
+              ) : (
+                <td>
+                  {types.spanish[0].toUpperCase() +
+                    `${
+                      types.spanish[1]
+                        ? ", " + types.spanish[1].toUpperCase()
+                        : ""
+                    }`}
+                </td>
+              )}
             </tr>
           </tbody>
         </table>

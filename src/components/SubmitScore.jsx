@@ -3,14 +3,19 @@ import { useRouter } from "next/router";
 import { useAppContext } from "../context/context";
 import { useAddScoreData } from "../hooks/useScoreData";
 
+import en from "../../locales/en.js";
+import es from "../../locales/es";
+
 export default function SubmitScore() {
-  const { state, dispatch } = useAppContext();
-  const { remainingTime, totalScore } = state;
+  const { state } = useAppContext();
+  const { remainingTime, totalScore, lang } = state;
   const { mutate } = useAddScoreData();
   const router = useRouter();
 
   const [name, setName] = useState("");
   const [inputError, setInputError] = useState("");
+
+  const t = lang === "en" ? en.submitScore : es.submitScore;
 
   const parsedTime = () => {
     const minutes = Math.floor(remainingTime / 60);
@@ -23,7 +28,6 @@ export default function SubmitScore() {
 
   const handleChange = (value) => {
     setName(value);
-    console.log({ inputError, name });
     if (value.length < 5 && value.length > 0) {
       return setInputError("is-success");
     }
@@ -45,14 +49,18 @@ export default function SubmitScore() {
       <div className="m-4">
         {totalScore === 0 ? (
           <div className="nes-container with-title">
-            <p className="title">GAME OVER!</p>
-            <p>Try again with the New game button</p>
+            <p className="title">{t.gameOverTitle}</p>
+            <p>{t.gameOverBadMessage}</p>
           </div>
         ) : (
           <div className="nes-container with-title is-centered">
-            <p className="title">GAME OVER!</p>
-            <p>Remainig Time: {parsedTime()}</p>
-            <p>Score: {totalScore}</p>
+            <p className="title">{t.gameOverTitle}</p>
+            <p>
+              {t.time} {parsedTime()}
+            </p>
+            <p>
+              {t.score} {totalScore}
+            </p>
           </div>
         )}
       </div>
@@ -60,7 +68,7 @@ export default function SubmitScore() {
         <>
           <div className="nes-field">
             <input
-              placeholder="Your name"
+              placeholder={t.placeholder}
               value={name.toUpperCase()}
               onChange={(e) => handleChange(e.target.value)}
               className={`nes-input ${inputError}`}
@@ -70,7 +78,7 @@ export default function SubmitScore() {
             onClick={(e) => handleSubmit()}
             className={`nes-btn ${inputError}`}
           >
-            Submit
+            {t.submitBtn}
           </button>
         </>
       ) : null}

@@ -33,12 +33,7 @@ export default function Home() {
     });
   }, [dispatch, pokemon, currentPokemonIndex, isLoading, testMode, refetch]);
 
-  if (isLoading || !currentPokemon || isRefetching)
-    return (
-      <div className="h-screen w-screen flex flex-col justify-around items-center">
-        Loading
-      </div>
-    );
+  if (isLoading || !currentPokemon || isRefetching) return 
 
   return (
     <div className="">

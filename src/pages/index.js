@@ -1,32 +1,25 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useAppContext } from "../context/context";
 import { usePokemonData } from "../hooks/usePokemonData";
 import { ACTIONS } from "../context/reducer";
 import ActionButtons from "../components/ActionButtons";
 
-import en from "../../locales/en"
+import en from "../../locales/en.js"
 import es from "../../locales/es"
 
 export default function Home() {
 
-  const router = useRouter()
-  const { locale } = router
-  // const t = locale === "en" ? en.index : es.index
-  const t = locale === "en" ? en.index : en.index
-
-  const changeLanguage = (e) => {
-    const locale = e.target.value;
-    router.push(router.pathname, router.asPath, { locale: locale });
-  };
-
   const { state, dispatch } = useAppContext();
-  const highLight = state.testMode ? "is-success" : "is-error";
+  const { testMode, lang } = state
+
+  const highLight = testMode ? "is-success" : "is-error";
+
+  const t = lang === "en" ? en.index : es.index
 
   const { refetch } = usePokemonData()
 
   const handleTestMode = () => {
-    if (!state.testMode) {
+    if (!testMode) {
       return dispatch({ type: ACTIONS.TEST_MODE });
     }
     dispatch({
@@ -59,12 +52,6 @@ export default function Home() {
             {t.testBtn}
           </button>
         </div>
-        {/* <div className="nes-select p-4">
-          <select onChange={changeLanguage} defaultValue={locale}>
-            <option value="es">Español</option>
-            <option value="en">English</option>
-          </select>
-        </div> */}
       </div>
       <div className="flex justify-around w-3/4 fixed z-90 bottom-8">
         <Link href={"/list"}>
