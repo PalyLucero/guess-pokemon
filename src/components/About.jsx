@@ -14,9 +14,14 @@ export default function About() {
 
   const t = lang === "en" ? en.about : es.about;
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeTex("luce.paly@gmail.com")
-    setModal(true)
+  const copyToClipboard = async () => {
+    if ('clipboard' in navigator) {
+      setModal(true)
+      return await navigator.clipboard.writeText("luce.paly@gmail.com");
+    } else {
+      setModal(true)
+      return document.execCommand('copy', true, "luce.paly@gmail.com");
+    }
   }
 
   return (
