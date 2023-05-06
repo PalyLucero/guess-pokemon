@@ -22,11 +22,11 @@ const list = {
 }
 const about = {
   project: [
-    "Our Pokemon trivia web game uses modern web technologies to deliver a fast, responsive, and engaging user experience. Next.js allows us to create server-side rendered pages and provides optimization features like code splitting and automatic prefetching. Prisma simplifies database interactions with its type-safe queries, automatic migrations, and schema designer, while Planetscale's distributed database technology guarantees high availability. React Query streamlines API calls with its simple and flexible API, and NESS.css and Tailwind provide modern and efficient styling options.",
+    "Pokémon Guesser recreates the famous opening and closing segments of the Pokémon TV show commercial break. It uses modern web technologies to offer a fast, responsive, and engaging user experience. Next.js allows us to create server-rendered pages and provides optimization features like code splitting and automatic prefetching. React Query simplifies API calls with its simple and flexible API. NESS.css, in conjunction with Tailwind, provides modern and efficient styling options. Prisma simplifies interactions with the database with its type-safe queries, automatic migrations, and schema designer, while Planetscale's distributed database technology ensures high availability.",
     "By prioritizing efficient data management, fast load times, and elegant design, our Pokemon trivia web game ensures an enjoyable experience for players."
   ],
   me: [
-    "Hey there! I'm a young web developer from Argentina who is passionate about building awesome web applications that people love to use. While I don't have much professional experience yet, I'm a fast learner and always eager to improve my skills. I believe in the importance of agile development practices and being adaptable to new challenges. I'm a team player and value collaboration to achieve great results. I hope you enjoy playing my Pokemon trivia game as much as I enjoyed building it!",
+    "Hi there! I'm a young web developer from Argentina who is passionate about building amazing web applications that people enjoy using. Although I don't have much professional experience yet, I learn quickly and am always willing to put my skills to the test. I believe in the importance of agile development methodologies and being adaptable to new challenges. I prefer working in teams, and value collaboration to achieve great results. I hope you enjoy my Pokémon trivia game as much as I enjoyed building it!",
     "If you have any questions or just want to say hello, feel free to get in touch with me using the buttons below. I'd love to connect with you and hear your feedback!"
   ],
   copyMsg: "Copied to clipboard",
