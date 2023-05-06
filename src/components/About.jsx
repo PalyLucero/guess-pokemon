@@ -14,6 +14,11 @@ export default function About() {
 
   const t = lang === "en" ? en.about : es.about;
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeTex("luce.paly@gmail.com")
+    setModal(true)
+  }
+
   return (
     <>
       <div className="flex flex-col items-center justify-between m-8">
@@ -47,7 +52,7 @@ export default function About() {
           <section className="w-full flex justify-around my-8">
             <i
               className="nes-icon is-large gmail nes-pointer"
-              onClick={() => setModal(true)}
+              onClick={() => copyToClipboard()}
             />
             <Link
               target="_blank"
@@ -58,7 +63,7 @@ export default function About() {
             </Link>
             <Link
               target="_blank"
-              href={"https://github.com/PalyLucero/guess-pokemon"}
+              href={"https://www.linkedin.com/in/pablo-lucero-103b531b7/"}
               rel="noopener noreferrer"
             >
               <i className="nes-icon is-large linkedin" />
