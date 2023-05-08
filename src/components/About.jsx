@@ -68,7 +68,7 @@ export default function About() {
             </Link>
             <Link
               target="_blank"
-              href={"https://www.linkedin.com/in/pablo-lucero-103b531b7/"}
+              href={"https://www.linkedin.com/in/paly-lucero/"}
               rel="noopener noreferrer"
             >
               <i className="nes-icon is-large linkedin" />
