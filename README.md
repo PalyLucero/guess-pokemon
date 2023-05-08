@@ -1,34 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pokemon Guesser
 
-## Getting Started
+Trivia game based on Pokemon.
 
-First, run the development server:
+## Getting started
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Prerrequisite:
+
+- MySQL local database (or Planetscale connection using PScale CLI)
+- npm
+
+Setup:
+
+1. Clone repo
+2. `npm install`
+3. Create `.env` file if one does not already exist
+4. Add connection URLs for both database and shadow db to .env
+5. Initialize database - `npx prisma migrate dev`
+6. Initialize base data set - `npm run ts-node ./scripts/fill-db.ts`
+7. Run dev server `npm run dev`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## API Endpoints
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### `GET` /api/pokemon
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- The response will contain 10 random Pokemon
+- OPTIONAL: parameter `?all=true` will return a list of the 151 Pokemon with their respectives attributes and clues
 
-## Learn More
+### `GET` /api/score
 
-To learn more about Next.js, take a look at the following resources:
+- Returns an object with the registered scores, and the names asociated with them, in descendant order
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### `POST` /api/score
+- Body must have an object with the `score` (integer) and `name` (string), checks if is already in the database, if not is registered.
